@@ -3,7 +3,7 @@ import { Construct } from "constructs";
 import { BuildConfig } from "./build-config";
 import { RemovalPolicy } from "aws-cdk-lib";
 
-export class DynamoAccountTable extends Construct {
+export class DynamoRecurringTransactionTable extends Construct {
 
     public readonly table: dynamodb.Table;
     public readonly tableName: string;
@@ -15,11 +15,11 @@ export class DynamoAccountTable extends Construct {
 
         const dynamoTable = new dynamodb.Table(this, tableName, {
             partitionKey: {
-                name: 'accountId',
+                name: 'recurringPatternId',
                 type: dynamodb.AttributeType.STRING
             },
             sortKey: {
-                name: 'createdTimestamp',
+                name: 'nextDueDate',
                 type: dynamodb.AttributeType.NUMBER
             },
             billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
@@ -27,20 +27,20 @@ export class DynamoAccountTable extends Construct {
             removalPolicy: RemovalPolicy.RETAIN
         });
 
-        // Add GSI for user's accounts lookup
+        // Add GSI for user's recurring transactions
         // dynamoTable.addGlobalSecondaryIndex({
-        //     indexName: 'UserIdIndex',
+        //     indexName: 'UserIdNextDueDateIndex',
         //     partitionKey: {
         //         name: 'userId',
         //         type: dynamodb.AttributeType.STRING
         //     },
         //     sortKey: {
-        //         name: 'createdTimestamp',
+        //         name: 'nextDueDate',
         //         type: dynamodb.AttributeType.NUMBER
         //     }
         // });
 
-        // Add GSI for active accounts
+        // Add GSI for active recurring patterns
         // dynamoTable.addGlobalSecondaryIndex({
         //     indexName: 'UserIdIsActiveIndex',
         //     partitionKey: {

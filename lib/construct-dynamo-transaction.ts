@@ -3,7 +3,7 @@ import { Construct } from "constructs";
 import { BuildConfig } from "./build-config";
 import { RemovalPolicy } from "aws-cdk-lib";
 
-export class DynamoAccountTable extends Construct {
+export class DynamoTransactionTable extends Construct {
 
     public readonly table: dynamodb.Table;
     public readonly tableName: string;
@@ -15,11 +15,11 @@ export class DynamoAccountTable extends Construct {
 
         const dynamoTable = new dynamodb.Table(this, tableName, {
             partitionKey: {
-                name: 'accountId',
+                name: 'transactionId',
                 type: dynamodb.AttributeType.STRING
             },
             sortKey: {
-                name: 'createdTimestamp',
+                name: 'transactionDate',
                 type: dynamodb.AttributeType.NUMBER
             },
             billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
@@ -27,28 +27,54 @@ export class DynamoAccountTable extends Construct {
             removalPolicy: RemovalPolicy.RETAIN
         });
 
-        // Add GSI for user's accounts lookup
+        // Add GSI for user's transactions by date
         // dynamoTable.addGlobalSecondaryIndex({
-        //     indexName: 'UserIdIndex',
+        //     indexName: 'UserIdTransactionDateIndex',
         //     partitionKey: {
         //         name: 'userId',
         //         type: dynamodb.AttributeType.STRING
         //     },
         //     sortKey: {
-        //         name: 'createdTimestamp',
+        //         name: 'transactionDate',
         //         type: dynamodb.AttributeType.NUMBER
         //     }
         // });
 
-        // Add GSI for active accounts
+        // Add GSI for account transactions
         // dynamoTable.addGlobalSecondaryIndex({
-        //     indexName: 'UserIdIsActiveIndex',
+        //     indexName: 'AccountIdTransactionDateIndex',
+        //     partitionKey: {
+        //         name: 'accountId',
+        //         type: dynamodb.AttributeType.STRING
+        //     },
+        //     sortKey: {
+        //         name: 'transactionDate',
+        //         type: dynamodb.AttributeType.NUMBER
+        //     }
+        // });
+
+        // Add GSI for category transactions
+        // dynamoTable.addGlobalSecondaryIndex({
+        //     indexName: 'CategoryIdTransactionDateIndex',
+        //     partitionKey: {
+        //         name: 'categoryId',
+        //         type: dynamodb.AttributeType.STRING
+        //     },
+        //     sortKey: {
+        //         name: 'transactionDate',
+        //         type: dynamodb.AttributeType.NUMBER
+        //     }
+        // });
+
+        // Add GSI for transaction type
+        // dynamoTable.addGlobalSecondaryIndex({
+        //     indexName: 'UserIdTransactionTypeIndex',
         //     partitionKey: {
         //         name: 'userId',
         //         type: dynamodb.AttributeType.STRING
         //     },
         //     sortKey: {
-        //         name: 'isActive',
+        //         name: 'transactionType',
         //         type: dynamodb.AttributeType.STRING
         //     }
         // });
