@@ -94,6 +94,23 @@
     "@aws-cdk/s3-notifications:addS3TrustKeyPolicyForSnsSubscriptions": true,
     "@aws-cdk/aws-ec2:requirePrivateSubnetsForEgressOnlyInternetGateway": true,
     "@aws-cdk/aws-s3:publicAccessBlockedByDefault": true,
-    "@aws-cdk/aws-lambda:useCdkManagedLogGroup": true
+    "@aws-cdk/aws-lambda:useCdkManagedLogGroup": true,
+    "defaultEnv": "dev",
+    "awsAccountId": "194722400753",
+    "dev": {
+      "envPrefix": "DevCashlume",
+      "region": "ap-southeast-1",
+      "appName": "CashlumeDevApp"
+    },
+    "test": {
+      "envPrefix": "TestCashlume",
+      "region": "ap-southeast-1",
+      "appName": "CashlumeTestApp"
+    },
+    "prod": {
+      "envPrefix": "ProdCashlume",
+      "region": "ap-southeast-1",
+      "appName": "CashlumeProdApp"
+    }
   }
 }

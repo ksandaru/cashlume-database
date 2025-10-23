@@ -1,20 +1,36 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib';
 import { CashlumeDatabaseStack } from '../lib/cashlume-database-stack';
+import { getConfig } from '../lib/build-config';
+import { CashlumeDatabasePipeline } from '../lib/cashlume-database-pipeline';
 
 const app = new cdk.App();
-new CashlumeDatabaseStack(app, 'CashlumeDatabaseStack', {
-  /* If you don't specify 'env', this stack will be environment-agnostic.
-   * Account/Region-dependent features and context lookups will not work,
-   * but a single synthesized template can be deployed anywhere. */
+const buildConfig = getConfig(app);
 
-  /* Uncomment the next line to specialize this stack for the AWS Account
-   * and Region that are implied by the current CLI configuration. */
-  // env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
+if (buildConfig.pipelineMode) {
 
-  /* Uncomment the next line if you know exactly what Account and Region you
-   * want to deploy the stack to. */
-  // env: { account: '123456789012', region: 'us-east-1' },
+  //run pipeline mode via cdk deploy -c pipeline=true
+  const pipelineName = 'CashlumeDatabasePipeline';
 
-  /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
-});
+  new CashlumeDatabasePipeline(app, pipelineName, {
+    env: {
+      account: buildConfig.awsAccountId,
+      region: buildConfig.region
+    }
+  });
+
+  app.synth();
+}
+
+else {
+  //if not given the pipeline, create the environment manually
+  const stackId = `${buildConfig.envPrefix}DatabaseStack`;
+
+  new CashlumeDatabaseStack(app, stackId, buildConfig, {
+    stackName: stackId,
+    env: {
+      region: buildConfig.region,
+      account: buildConfig.awsAccountId
+    }
+  })
+}
