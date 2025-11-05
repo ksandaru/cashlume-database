@@ -19,8 +19,8 @@ export class DynamoBudgetTable extends Construct {
                 type: dynamodb.AttributeType.STRING
             },
             sortKey: {
-                name: 'startDate',
-                type: dynamodb.AttributeType.NUMBER
+                name: 'userId',
+                type: dynamodb.AttributeType.STRING
             },
             billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
             tableName: tableName,
@@ -29,13 +29,13 @@ export class DynamoBudgetTable extends Construct {
 
         // Add GSI for user's budgets
         dynamoTable.addGlobalSecondaryIndex({
-            indexName: 'UserIdStartDateIndex',
+            indexName: 'UserIdStartTimestampIndex',
             partitionKey: {
                 name: 'userId',
                 type: dynamodb.AttributeType.STRING
             },
             sortKey: {
-                name: 'startDate',
+                name: 'startTimestamp',
                 type: dynamodb.AttributeType.NUMBER
             }
         });

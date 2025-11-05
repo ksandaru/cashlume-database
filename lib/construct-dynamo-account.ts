@@ -19,8 +19,8 @@ export class DynamoAccountTable extends Construct {
                 type: dynamodb.AttributeType.STRING
             },
             sortKey: {
-                name: 'createdTimestamp',
-                type: dynamodb.AttributeType.NUMBER
+                name: 'userId',
+                type: dynamodb.AttributeType.STRING
             },
             billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
             tableName: tableName,
@@ -28,17 +28,17 @@ export class DynamoAccountTable extends Construct {
         });
 
         // Add GSI for user's accounts lookup
-        // dynamoTable.addGlobalSecondaryIndex({
-        //     indexName: 'UserIdIndex',
-        //     partitionKey: {
-        //         name: 'userId',
-        //         type: dynamodb.AttributeType.STRING
-        //     },
-        //     sortKey: {
-        //         name: 'createdTimestamp',
-        //         type: dynamodb.AttributeType.NUMBER
-        //     }
-        // });
+        dynamoTable.addGlobalSecondaryIndex({
+            indexName: 'UserIdUpdatedTimestampIndex',
+            partitionKey: {
+                name: 'userId',
+                type: dynamodb.AttributeType.STRING
+            },
+            sortKey: {
+                name: 'updatedTimestamp',
+                type: dynamodb.AttributeType.NUMBER
+            }
+        });
 
         // Add GSI for active accounts
         // dynamoTable.addGlobalSecondaryIndex({

@@ -45,8 +45,7 @@ CashLume is a personal finance/cash flow tracking mobile application. This docum
 | Attribute | Type | Description |
 |-----------|------|-------------|
 | accountId (PK) | String | Unique account identifier |
-| createdTimestamp (SK) | Number | Unix timestamp of creation |
-| userId | String | Owner user ID |
+| userId (SK) | String | Owner user ID |
 | accountName | String | Account display name |
 | accountType | String | checking, savings, cash, credit_card, investment |
 | currency | String | Account currency |
@@ -54,12 +53,13 @@ CashLume is a personal finance/cash flow tracking mobile application. This docum
 | currentBalance | Number | Current balance |
 | color | String | UI color code |
 | icon | String | UI icon name |
-| isActive | String | "true" or "false" |
+| isActive | boolean | true or false |
+| createdTimestamp | Number | Creation timestamp |
 | updatedTimestamp | Number | Last update timestamp |
 
 **Global Secondary Indexes:**
-- `UserIdIndex` - PK: userId, SK: createdTimestamp
-- `UserIdIsActiveIndex` - PK: userId, SK: isActive
+- `UserIdUpdatedTimestampIndex` - PK: userId, SK: updatedTimestamp
+<!-- - `UserIdIsActiveIndex` - PK: userId, SK: isActive -->
 
 ---
 
@@ -80,9 +80,9 @@ CashLume is a personal finance/cash flow tracking mobile application. This docum
 | isSystemCategory | String | "true" for default categories |
 | updatedTimestamp | Number | Last update timestamp |
 
-**Global Secondary Indexes:**
+<!-- **Global Secondary Indexes:**
 - `UserIdIndex` - PK: userId, SK: categoryType
-- `IsSystemCategoryIndex` - PK: isSystemCategory, SK: categoryType
+- `IsSystemCategoryIndex` - PK: isSystemCategory, SK: categoryType -->
 
 ---
 
@@ -111,10 +111,10 @@ CashLume is a personal finance/cash flow tracking mobile application. This docum
 | updatedTimestamp | Number | Last update timestamp |
 
 **Global Secondary Indexes:**
-- `UserIdTransactionDateIndex` - PK: userId, SK: transactionDate
-- `AccountIdTransactionDateIndex` - PK: accountId, SK: transactionDate
+- `UserIdCreatedTimestampIndex` - PK: userId, SK: createdTimestamp
+<!-- - `AccountIdTransactionDateIndex` - PK: accountId, SK: transactionDate
 - `CategoryIdTransactionDateIndex` - PK: categoryId, SK: transactionDate
-- `UserIdTransactionTypeIndex` - PK: userId, SK: transactionType
+- `UserIdTransactionTypeIndex` - PK: userId, SK: transactionType -->
 
 ---
 
@@ -153,22 +153,22 @@ CashLume is a personal finance/cash flow tracking mobile application. This docum
 | Attribute | Type | Description |
 |-----------|------|-------------|
 | budgetId (PK) | String | Unique budget identifier |
-| startDate (SK) | Number | Budget period start timestamp |
-| userId | String | Owner user ID |
+| userId (SK) | String | Owner user ID |
 | categoryId | String | Budget category |
 | budgetAmount | Number | Budget limit amount |
 | periodType | String | weekly, monthly, yearly |
-| endDate | Number | Budget period end timestamp |
-| alertThreshold | Number | Alert percentage (e.g., 80 for 80%) |
-| isActive | String | "true" or "false" |
+| startTimestamp | Number | Budget period start timestamp |
+| endTimestamp | Number | Budget period end timestamp |
+| alertThreshold | Number | Alert percentage (e.g., 0.8 for 80%, 1 for 100%) |
+| isActive | boolean | true or false |
 | currentSpent | Number | Current period spending |
 | createdTimestamp | Number | Creation timestamp |
 | updatedTimestamp | Number | Last update timestamp |
 
 **Global Secondary Indexes:**
-- `UserIdStartDateIndex` - PK: userId, SK: startDate
-- `CategoryIdStartDateIndex` - PK: categoryId, SK: startDate
-- `UserIdIsActiveIndex` - PK: userId, SK: isActive
+- `UserIdStartTimestampIndex` - PK: userId, SK: startTimestamp
+<!-- - `CategoryIdStartDateIndex` - PK: categoryId, SK: startDate
+- `UserIdIsActiveIndex` - PK: userId, SK: isActive -->
 
 ---
 
