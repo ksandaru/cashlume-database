@@ -19,26 +19,26 @@ export class DynamoTransactionTable extends Construct {
                 type: dynamodb.AttributeType.STRING
             },
             sortKey: {
-                name: 'transactionDate',
-                type: dynamodb.AttributeType.NUMBER
+                name: 'userId',
+                type: dynamodb.AttributeType.STRING
             },
             billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
             tableName: tableName,
             removalPolicy: RemovalPolicy.RETAIN
         });
 
-        // Add GSI for user's transactions by date
-        // dynamoTable.addGlobalSecondaryIndex({
-        //     indexName: 'UserIdTransactionDateIndex',
-        //     partitionKey: {
-        //         name: 'userId',
-        //         type: dynamodb.AttributeType.STRING
-        //     },
-        //     sortKey: {
-        //         name: 'transactionDate',
-        //         type: dynamodb.AttributeType.NUMBER
-        //     }
-        // });
+        // Add GSI for user's transactions by userId
+        dynamoTable.addGlobalSecondaryIndex({
+            indexName: 'UserIdCreatedTimestampIndex',
+            partitionKey: {
+                name: 'userId',
+                type: dynamodb.AttributeType.STRING
+            },
+            sortKey: {
+                name: 'createdTimestamp',
+                type: dynamodb.AttributeType.NUMBER
+            }
+        });
 
         // Add GSI for account transactions
         // dynamoTable.addGlobalSecondaryIndex({
