@@ -106,7 +106,7 @@ CashLume is a personal finance/cash flow tracking mobile application. This docum
 | receiptImageUrl | String | S3 URL to receipt image |
 | tags | String | Comma-separated tags |
 | isRecurring | String | "true" or "false" |
-| recurringPatternId | String | Link to recurring pattern |
+| recurringTransactionId | String | Link to recurring pattern |
 | createdTimestamp | Number | Creation timestamp |
 | updatedTimestamp | Number | Last update timestamp |
 
@@ -124,7 +124,7 @@ CashLume is a personal finance/cash flow tracking mobile application. This docum
 
 | Attribute | Type | Description |
 |-----------|------|-------------|
-| recurringPatternId (PK) | String | Unique pattern identifier |
+| recurringTransactionId (PK) | String | Unique pattern identifier |
 | nextDueDate (SK) | Number | Next execution date timestamp |
 | userId | String | Owner user ID |
 | accountId | String | Target account |

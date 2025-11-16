@@ -46,8 +46,8 @@ This project creates:
 
 ### 5. RecurringTransactionTable
 **Purpose:** Store recurring transaction patterns (bills, subscriptions)
-- **Partition Key:** `recurringPatternId` (STRING)
-- **Sort Key:** `nextDueDate` (NUMBER)
+- **Partition Key:** `recurringTransactionId` (STRING)
+- **Sort Key:** `userId` (NUMBER)
 - **GSI:**
   - `UserIdNextDueDateIndex` - get upcoming recurring transactions
   - `UserIdIsActiveIndex` - get active recurring patterns

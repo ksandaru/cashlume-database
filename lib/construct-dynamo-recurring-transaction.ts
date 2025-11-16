@@ -15,12 +15,12 @@ export class DynamoRecurringTransactionTable extends Construct {
 
         const dynamoTable = new dynamodb.Table(this, tableName, {
             partitionKey: {
-                name: 'recurringPatternId',
+                name: 'recurringTransactionId',
                 type: dynamodb.AttributeType.STRING
             },
             sortKey: {
-                name: 'nextDueDate',
-                type: dynamodb.AttributeType.NUMBER
+                name: 'userId',
+                type: dynamodb.AttributeType.STRING
             },
             billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
             tableName: tableName,
